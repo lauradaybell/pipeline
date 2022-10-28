@@ -1,4 +1,4 @@
-import { CfnOutput, Stack, StackProps } from "aws-cdk-lib";
+import { CfnOutput, Stack, StackProps, SecretValue } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as codecommit from "aws-cdk-lib/aws-codecommit";
 import * as codepipeline from "aws-cdk-lib/aws-codepipeline";
