@@ -15,10 +15,6 @@ export class PipelineCdkStack extends Stack {
   constructor(scope: Construct, id: string, props: ConsumerProps) {
     super(scope, id, props);
 
-    const sourceRepo = new codecommit.Repository(this, "CICD_Workshop", {
-      repositoryName: "CICD_Workshop",
-      description: "Repository for my application code and infrastructure",
-    });
 
     const pipeline = new codepipeline.Pipeline(this, "CICD_Pipeline", {
       pipelineName: "CICD_Pipeline",
@@ -80,18 +76,23 @@ export class PipelineCdkStack extends Stack {
     const sourceOutput = new codepipeline.Artifact();
     const unitTestOutput = new codepipeline.Artifact();
     const dockerBuildOutput = new codepipeline.Artifact();
+    
+    const sourceOutput = new codepipeline.Artifact();
+    
+    const sourceAction = new codepipeline_actions.GitHubSourceAction({
+      actionName: 'GitHub_Source',
+      owner: 'owner-id',
+      repo: 'repo-name',
+      oauthToken: SecretValue.secretsManager('token-name'),
+      output: sourceOutput,
+      branch: 'main', 
+      });
+      
 
     pipeline.addStage({
-      stageName: "Source",
-      actions: [
-        new codepipeline_actions.CodeCommitSourceAction({
-          actionName: "CodeCommit",
-          repository: sourceRepo,
-          output: sourceOutput,
-          branch: "main",
-        }),
-      ],
-    });
+      stageName: 'Source',
+      actions: [sourceAction],
+    });  
 
     pipeline.addStage({
       stageName: "Code-Quality-Testing",
@@ -115,10 +116,6 @@ export class PipelineCdkStack extends Stack {
           outputs: [dockerBuildOutput],
         }),
       ],
-    });
-
-    new CfnOutput(this, "CodeCommitRepositoryUrl", {
-      value: sourceRepo.repositoryCloneUrlHttp,
     });
   }
 }
