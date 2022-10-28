@@ -122,3 +122,4 @@ export class PipelineCdkStack extends Stack {
     });
   }
 }
+
