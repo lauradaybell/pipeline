@@ -12,7 +12,8 @@ phases:
   build:
     commands:
       - echo run tests...
-      - CI=true npm run test
+      - CI=true npm run test -- --reporters=jest-junit
+
 reports:
   jest_reports:
     files:
