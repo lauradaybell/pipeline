@@ -77,13 +77,12 @@ export class PipelineCdkStack extends Stack {
     const unitTestOutput = new codepipeline.Artifact();
     const dockerBuildOutput = new codepipeline.Artifact();
     
-    const sourceOutput = new codepipeline.Artifact();
     
     const sourceAction = new codepipeline_actions.GitHubSourceAction({
       actionName: 'GitHub_Source',
-      owner: 'owner-id',
-      repo: 'repo-name',
-      oauthToken: SecretValue.secretsManager('token-name'),
+      owner: 'lauradaybell',
+      repo: 'pipeline',
+      oauthToken: SecretValue.secretsManager('pat'),
       output: sourceOutput,
       branch: 'main', 
       });
