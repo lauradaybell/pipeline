@@ -9,7 +9,6 @@ import * as ecr from 'aws-cdk-lib/aws-ecr';
 
 
 
-
 interface ConsumerProps extends StackProps {
   ecrRepository: ecr.Repository;
 }
